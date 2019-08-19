@@ -8,7 +8,15 @@ n = a `div` length xs
 
 
 -- 練習問題4
-myLast (x:[]) = x
-myLast (x:xs) = myLast xs
+myLast xs = xs !! (length xs - 1) 
 
-myLast2 xs = xs !! (length xs - 1) 
+myLastR (x:[]) = x
+myLastR (x:xs) = myLastR xs
+
+
+
+-- 練習問題5
+myInit xs = take (length xs - 1) xs
+
+myInitR (x:[]) = []
+myInitR (x:xs) = x : myInitR xs
