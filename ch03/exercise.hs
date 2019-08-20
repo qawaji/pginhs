@@ -13,3 +13,22 @@ myCopy x = (x, x)
 
 myApply :: (a -> b) -> a -> b
 myApply f a = f a
+
+-- 練習問題3
+mySecond :: [a] -> a
+mySecond xs = head (tail xs)
+
+mySwap :: (a, b) -> (b, a)
+mySwap (x, y) = (y, x)
+
+myPair :: a -> b -> (a, b)
+myPair x y = (x, y)
+
+myDouble :: Num a => a -> a
+myDouble x = x * 2
+
+myPalindrome :: Eq a => [a] -> Bool
+myPalindrome xs = reverse xs == xs
+
+myTwice :: (a -> a) -> a -> a
+myTwice f x = f (f x)
