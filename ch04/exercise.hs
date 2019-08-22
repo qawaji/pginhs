@@ -35,3 +35,23 @@ safetailB xs | null xs = []
 safetailC :: [a] -> [a]
 safetailC [] = []
 safetailC (x:xs) = xs
+
+-- 練習問題4
+-- パターンマッチをつかって||を4通り実装
+orA :: Bool -> Bool -> Bool
+False `orA` False = False
+False `orA` True = True
+True `orA` False = True
+True `orA` True = True
+
+orB :: Bool -> Bool -> Bool
+False `orB` False = False
+_ `orB` _ = True
+
+orC :: Bool -> Bool -> Bool
+True `orC` _ = True
+False `orC` b = b
+
+orD :: Bool -> Bool -> Bool
+b `orD` c | b == c = b
+          | otherwise = True
