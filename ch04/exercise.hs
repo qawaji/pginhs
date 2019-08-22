@@ -55,3 +55,22 @@ False `orC` b = b
 orD :: Bool -> Bool -> Bool
 b `orD` c | b == c = b
           | otherwise = True
+
+-- 練習問題7
+mult :: Int -> (Int -> (Int -> Int))
+mult = \x -> (\y -> (\z -> x * y * z))
+
+-- 練習問題8
+luhnDouble :: Int -> Int
+luhnDouble n = (n * 2) `mod` 9
+
+luhn :: Int -> Int -> Int -> Int -> Bool
+luhn n4 n3 n2 n1 = total `mod` 10 == 0
+  where
+    luhnSingle n = n `mod` 9
+    n4' = luhnDouble n4
+    n3' = luhnSingle n3
+    n2' = luhnDouble n2
+    n1' = luhnSingle n1
+    total = n1' + n2' + n3' + n4'
+
