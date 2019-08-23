@@ -1,15 +1,26 @@
 import Data.Char
 
+-- 5.10
+-- let2int, int2let shiftを大文字対応
+
 -- letter to int
 let2int :: Char -> Int
-let2int c = ord c - ord 'a'
+let2int c | isLower c = ord c - ord 'a'
+          | isUpper c = ord c - ord 'A'
 
 -- int to letter
-int2let :: Int -> Char
-int2let n = chr (ord 'a' + n)
+int2letBase :: Char -> Int -> Char
+int2letBase b n = chr (ord b + n)
+
+int2letLower :: Int -> Char
+int2letLower = int2letBase 'a'
+
+int2letUpper :: Int -> Char
+int2letUpper = int2letBase 'A'
 
 shift :: Int -> Char -> Char
-shift n c | isLower c = int2let ((let2int c + n) `mod` 26)
+shift n c | isLower c = int2letLower ((let2int c + n) `mod` 26)
+          | isUpper c = int2letUpper ((let2int c + n) `mod` 26)
           | otherwise = c
 
 encode :: Int -> String -> String
