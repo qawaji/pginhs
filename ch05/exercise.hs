@@ -35,3 +35,7 @@ find k t = [v | (k', v) <- t, k == k']
 
 positions' :: Eq a => a -> [a] -> [Int]
 positions' x xs = find x $ zip xs [0..]
+
+-- 5.9
+scalarproduct :: [Int] -> [Int] -> Int
+scalarproduct xs ys = sum [x * y | (x, y) <- zip xs ys]
