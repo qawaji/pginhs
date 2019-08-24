@@ -44,3 +44,22 @@ replicate' n x = x : replicate' (n - 1) x
 elem' :: Eq a => a -> [a] -> Bool
 elem' _ [] = False
 elem' x (y:ys) = x == y || elem' x ys
+
+-- 6.7
+merge :: Ord a => [a] -> [a] -> [a]
+merge [] [] = []
+merge xs [] = xs
+merge [] ys = ys
+merge (x:xs) (y:ys) | x < y = x : merge xs (y:ys)
+                    | otherwise = y : merge (x:xs) ys
+
+-- 6.8
+halve :: [a] -> ([a], [a])
+halve xs = (take hlen xs, drop hlen xs)
+  where hlen = (length xs) `div` 2
+
+msort :: Ord a => [a] -> [a]
+msort [] = []
+msort [x] = [x]
+msort xs = merge (msort xs1) (msort xs2)
+  where (xs1, xs2) = halve xs
