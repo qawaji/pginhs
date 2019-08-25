@@ -25,3 +25,7 @@ map' f = foldr (\x xs -> f x : xs) []
 
 -- filter をfoldrを使って
 filter' p = foldr (\x xs -> if p x then x:xs else xs) []
+
+-- 7.4
+dec2int :: [Int] -> Int
+dec2int = foldl (\x y -> 10*x + y) 0
