@@ -60,7 +60,10 @@ chop8 bits = take 8 bits : chop8 (drop 8 bits)
 chop8' :: [Bit] -> [[Bit]]
 chop8' = unfold null (take 8) (drop 8)
 
-iterate' f = unfold (\_ -> False) id f
+unfoldMap :: (a -> b) -> [a] -> [b]
+unfoldMap f = unfold null (f . head) tail
+
+unfoldIterate f = unfold (\_ -> False) id f
 
 -- 7.9 altMap
 altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
