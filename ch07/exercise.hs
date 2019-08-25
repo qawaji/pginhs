@@ -1,3 +1,5 @@
+import Data.Char
+
 -- 7.1
 -- [f x | x <- xs, p x] を map, filterをつかって
 myfunc f p xs = map f (filter p xs)
@@ -36,3 +38,29 @@ curry' f = \x y -> f (x, y)
 
 uncurry' :: (a -> b -> c) -> ((a, b) -> c)
 uncurry' f = \(x, y) -> f x y
+
+-- 7.6
+-- p 終了条件
+-- h データの加工
+-- t 変数の変更
+unfold p h t x | p x = []
+               | otherwise = h x : unfold p h t (t x)
+
+int2bin = unfold (== 0) (`mod` 2) (`div` 2)
+
+type Bit = Int
+
+testBits :: [Bit]
+testBits = [1,0,0,0,0,1,1,0,0,1,0,0,0,1,1,0,1,1,0,0,0,1,1,0]
+
+chop8 :: [Bit] -> [[Bit]]
+chop8 [] = []
+chop8 bits = take 8 bits : chop8 (drop 8 bits)
+
+chop8' :: [Bit] -> [[Bit]]
+chop8' = unfold null (take 8) (drop 8)
+
+-- 7.9 altMap
+altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
+altMap _ _ [] = []
+altMap f g (x:xs) = f x : altMap g f xs
