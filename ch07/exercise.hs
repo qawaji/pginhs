@@ -18,3 +18,10 @@ dropWhile' :: (a -> Bool) -> [a] -> [a]
 dropWhile' _ [] = []
 dropWhile' p (x:xs) | p x = x:xs
                     | otherwise = dropWhile' p xs
+
+-- 7.3
+-- map をfoldrを使って
+map' f = foldr (\x xs -> f x : xs) []
+
+-- filter をfoldrを使って
+filter' p = foldr (\x xs -> if p x then x:xs else xs) []
