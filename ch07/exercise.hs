@@ -69,3 +69,11 @@ unfoldIterate f = unfold (\_ -> False) id f
 altMap :: (a -> b) -> (a -> b) -> [a] -> [b]
 altMap _ _ [] = []
 altMap f g (x:xs) = f x : altMap g f xs
+
+-- 7.10
+luhn :: [Int] -> Bool
+luhn xs = total `mod` 10 == 0
+  where
+    total = sum $ altMap luhnSingle luhnDouble $ reverse xs    
+    luhnSingle n = n `mod` 9
+    luhnDouble n = (n * 2) `mod` 9
