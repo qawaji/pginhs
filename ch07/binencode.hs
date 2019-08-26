@@ -1,6 +1,6 @@
 import Data.Char
 
--- 7.8, 7.9
+-- exercise 7.7, 7.8
 
 type Bit = Int
 
