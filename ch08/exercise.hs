@@ -20,7 +20,7 @@ occurs x (Node l y r) = case x `compare` y of
                           GT -> occurs x r
 
 -- 8.3
-data Tree' a = Leaf' a | Node' (Tree' a) (Tree' a)
+data Tree' a = Leaf' a | Node' (Tree' a) (Tree' a) deriving Show
 
 countLeaf :: Tree' a -> Int
 countLeaf (Leaf' x) = 1
@@ -30,3 +30,11 @@ balanced :: Tree' a -> Bool
 balanced (Leaf' x) = True
 balanced (Node' l r) = balanced l && balanced r && abs (countLeaf r - countLeaf l) <= 1
 
+-- 8.4
+halv :: [a] -> ([a], [a])
+halv xs = splitAt (length xs `div` 2) xs
+
+balance :: [a] -> Tree' a
+balance [x] = Leaf' x
+balance xs = Node' (balance ys) (balance zs)
+  where (ys,zs) = halv xs
