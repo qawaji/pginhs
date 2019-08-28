@@ -38,3 +38,16 @@ balance :: [a] -> Tree' a
 balance [x] = Leaf' x
 balance xs = Node' (balance ys) (balance zs)
   where (ys,zs) = halv xs
+
+-- 8.7
+data Maybe' a = Just' a | Nothing'
+
+instance Eq a => Eq (Maybe' a) where
+  Nothing'  == Nothing'  = True
+  (Just' a) == (Just' b) = a == b
+  _         == _         = False
+
+-- instance Eq a => Eq [a] where
+--  []   == []   = True
+--  x:xs == y:ys = x == y && xs == ys
+--  _    == _    = False
