@@ -7,10 +7,10 @@ instance Show Op where
   show Div = "/"
 
 valid :: Op -> Int -> Int -> Bool
-valid Add _ _ = True
+valid Add x y = x <= y
 valid Sub x y = x > y
-valid Mul _ _ = True
-valid Div x y = x `mod` y == 0
+valid Mul x y = x <= y && x /= 1 && y /= 1
+valid Div x y = x `mod` y == 0 && y /= 1 
 
 apply :: Op -> Int -> Int -> Int
 apply Add x y = x + y
