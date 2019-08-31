@@ -121,8 +121,8 @@ solutions' :: [Int] -> Int -> [Expr]
 solutions' ns n = [e | ns' <- choices ns, (e,m) <- results ns', m == n]
 
 -- 9.6
-solutions'' :: [Int] -> Int -> (Expr, Int)
-solutions'' ns n = head $ sortBy resultOrder [(e, abs (m - n)) | ns' <- choices ns, (e,m) <- results ns']
+solutions'' :: [Int] -> Int -> Int -> [(Expr, Int)]
+solutions'' ns n c = take c $ sortBy resultOrder [(e, abs (m - n)) | ns' <- choices ns, (e,m) <- results ns']
                       where 
                         resultOrder (e1, n1) (e2, n2) | n1 == n2 = EQ
                                                       | n1 < n2 = LT
@@ -138,7 +138,7 @@ exprsValidAll :: [Int] -> [Expr]
 exprsValidAll ns = [e | ns' <- choices ns, e <- exprs ns', eval e /= []]
 
 main :: IO()
-main = print (solutions'' [1,3,7,10,25,50] 831)
+main = print (solutions'' [1,3,7,10,25,50] 831 20)
 -- main = print (solutions' [1,3,7,10,25,50] 765)
 
 -- 9.4 有効な式
