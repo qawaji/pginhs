@@ -1,3 +1,5 @@
+import System.IO
+
 -- exercise 10.1
 putStr' :: String -> IO ()
 putStr' = sequence_ . map putChar
@@ -25,3 +27,26 @@ adder' = do putStr "How many number? "
             rs <- sequence (replicate (read n) getLine)
             putStr "The total is "
             putStrLn $ show $ sum $ map read rs
+
+-- exercise 10.6
+getCh :: IO Char              
+getCh = do hSetEcho stdin False
+           x <- getChar
+           hSetEcho stdin True
+           return x
+
+readLine :: IO String
+readLine = readLine' ""
+
+readLine' :: String -> IO String
+readLine' buf = 
+  do x <- getCh
+     case x of '\n' -> do putChar '\n'
+                          return buf
+               '\DEL' -> if null buf then
+                            readLine' ""
+                         else
+                            do putChar '\b'                  
+                               readLine' (init buf)
+               _ -> do putChar x
+                       readLine' (buf ++ [x])
