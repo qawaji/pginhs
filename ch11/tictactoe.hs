@@ -120,6 +120,11 @@ data Tree a = Node a [Tree a]
 gametree :: Grid -> Player -> Tree Grid
 gametree g p = Node g [gametree g' (next p) | g' <- moves g p]
 
+-- exercise 11.1
+-- countnodes $! gametree empty O 
+countnodes :: Tree a -> Int
+countnodes (Node _ ns) = 1 + sum (map countnodes ns)
+
 moves :: Grid -> Player -> [Grid]
 moves g p
   | won g = []
