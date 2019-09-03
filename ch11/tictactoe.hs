@@ -124,7 +124,7 @@ moves :: Grid -> Player -> [Grid]
 moves g p
   | won g = []
   | full g = []
-  |otherwise = concat [move g i p | i <- [0..((size^2) - 1)]]
+  | otherwise = concat [move g i p | i <- [0..((size^2) - 1)]]
 
 prune :: Int -> Tree a -> Tree a
 prune 0 (Node x _) = Node x []
