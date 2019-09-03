@@ -125,6 +125,11 @@ gametree g p = Node g [gametree g' (next p) | g' <- moves g p]
 countnodes :: Tree a -> Int
 countnodes (Node _ ns) = 1 + sum (map countnodes ns)
 
+-- treedepths $! gametee empty O
+treedepths :: Tree a -> Int
+treedepths (Node _ []) = 0
+treedepths (Node _ ns) = 1 + maximum (map treedepths ns)
+
 moves :: Grid -> Player -> [Grid]
 moves g p
   | won g = []
