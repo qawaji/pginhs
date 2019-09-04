@@ -2,6 +2,8 @@ import Data.Char
 import Data.List
 import System.IO
 
+import System.Random hiding (next)
+
 size :: Int
 size = 3
 
@@ -155,11 +157,15 @@ minimax (Node g ts)
                   ts' = map minimax ts
                   ps = [p | Node (_, p) _ <- ts']
 
-bestmove :: Grid -> Player -> Grid
-bestmove g p = head [g' | Node (g', p') _ <- ts, p' == best]
+-- 11.2                  
+bestmoves :: Grid -> Player -> [Grid]
+bestmoves g p = [g' | Node (g', p') _ <- ts, p' == best]
                where
                   tree = prune depth (gametree g p)
                   Node (_, best) ts = minimax tree
+
+bestmove :: Grid -> Player -> Grid
+bestmove g p = head $ bestmoves g p
 
 main :: IO ()
 main = do hSetBuffering stdout NoBuffering
@@ -182,4 +188,6 @@ play' g p
                            play' g p                        
                   [g'] -> play g' (next p)
   | p == X = do putStr "Player X is thinikng..."
-                (play $! (bestmove g p)) (next p)
+                let gs = bestmoves g p 
+                n <- randomRIO (0, length gs - 1)
+                play (gs !! n) (next p)
