@@ -8,3 +8,8 @@ instance Functor Tree where
   fmap f (Node l a r) = Node (fmap f l) (f a) (fmap f r)
 
 testTree = Node (Node Leaf 10 Leaf) 20 (Leaf)
+
+-- exercise 12.2
+-- Duplicate instance declarationsになる
+--instance Functor ((->) a) where
+--  fmap = (.)
