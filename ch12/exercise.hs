@@ -13,3 +13,8 @@ testTree = Node (Node Leaf 10 Leaf) 20 (Leaf)
 -- Duplicate instance declarationsになる
 --instance Functor ((->) a) where
 --  fmap = (.)
+
+-- exercise 12.3
+--instance Applicative ((->) a) where
+--  pure x = (\_ -> x)
+--  f <*> g = \x -> f x (g x)
