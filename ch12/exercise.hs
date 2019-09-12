@@ -31,3 +31,8 @@ instance Applicative ZipList' where
 
   -- (<*>) :: ZipList' (a -> b) -> ZipList' a -> ZipList' b
   (Z' gs) <*> (Z' xs) = Z' [g x | (g, x) <- zip gs xs]
+
+-- exercise 12.6
+--instance Monad ((->) a) where
+--  return x = (\_ -> x)
+--  g >>= f = \x -> f (g x) x
