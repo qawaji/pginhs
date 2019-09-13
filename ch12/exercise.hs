@@ -53,13 +53,13 @@ instance Applicative Expr where
 
 -- (<*>) :: Expr (a -> b) -> Expr a -> Expr b
   (Var f) <*> e = fmap f e
-  (Add l r) <*> e = Add ((<*>) l e) ((<*>) r e)
+  (Add l r) <*> e = Add (l <*> e) (r <*> e)
 
 instance Monad Expr where
 -- return :: a -> Expr a
   return x = Var x
 
 -- (>>=) :: Expr a -> (a -> Expr b) -> Expr b
-  (Val x) >>= _ = (Val x)
+  (Val x) >>= _ = Val x
   (Var x) >>= f = f x
-  (Add l r) >>= f = (Add ((>>=) l f) ((>>=) r f))
+  (Add l r) >>= f = Add (l >>= f) (r >>= f)
