@@ -36,3 +36,30 @@ instance Applicative ZipList' where
 --instance Monad ((->) a) where
 --  return x = (\_ -> x)
 --  g >>= f = \x -> f (g x) x
+
+-- exercise 12.7
+data Expr a = Var a | Val Int | Add (Expr a) (Expr a)
+  deriving Show
+
+instance Functor Expr where
+-- fmap :: (a -> b) -> Expr a -> Expr b
+  fmap f (Var x) = Var (f x)
+  fmap f (Val x) = Val x
+  fmap f (Add l r) = Add (fmap f l) (fmap f r)
+
+instance Applicative Expr where
+--  pure :: a -> Expr a
+  pure x = Var x
+
+-- (<*>) :: Expr (a -> b) -> Expr a -> Expr b
+  (Var f) <*> e = fmap f e
+  (Add l r) <*> e = Add ((<*>) l e) ((<*>) r e)
+
+instance Monad Expr where
+-- return :: a -> Expr a
+  return x = Var x
+
+-- (>>=) :: Expr a -> (a -> Expr b) -> Expr b
+  (Val x) >>= _ = (Val x)
+  (Var x) >>= f = f x
+  (Add l r) >>= f = (Add ((>>=) l f) ((>>=) r f))
