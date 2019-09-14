@@ -5,16 +5,23 @@ newtype ST a = S (State -> (a,State))
 app :: ST a -> State -> (a, State)
 app (S st) x = st x
 
+-- exercise 12.8
 instance Functor ST where
   -- fmap :: (a -> b) -> ST a -> ST b
-  fmap g st = S (\s -> let(x, s') = app st s in (g x, s'))
+  -- fmap g st = S (\s -> let(x, s') = app st s in (g x, s'))
+  fmap g st = do s <- st
+                 return (g s)
 
 instance Applicative ST where
   pure x = S (\s -> (x, s))
 
-  stf <*> stx = S (\s ->
-    let (f, s') = app stf s
-        (x, s'') = app stx s' in (f x, s''))
+  -- (<*>) :: ST (a -> b) -> ST a -> ST b
+  --  stf <*> stx = S (\s ->
+  --    let (f, s') = app stf s
+  --        (x, s'') = app stx s' in (f x, s''))
+  stf <*> stx = do f <- stf
+                   x <- stx
+                   return (f x)
 
 instance Monad ST where
   -- (>>=) :: ST a -> (a -> ST b) -> ST b
