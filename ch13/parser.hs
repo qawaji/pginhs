@@ -47,7 +47,7 @@ instance Alternative Parser where
                         [(v, out)] -> [(v, out)])
 
 sat :: (Char -> Bool) -> Parser Char
-sat p = do x<- item
+sat p = do x <- item
            if p x then return x else empty
   
 digit :: Parser Char           
@@ -235,3 +235,9 @@ run :: IO ()
 run = do cls
          showbox
          clear
+
+-- exercise 13.1
+comment :: Parser ()
+comment = do string "--"
+             many (sat (/= '\n'))
+             return ()
