@@ -119,32 +119,39 @@ nats = do symbol "["
           symbol "]"
           return (n:ns)
 
+-- exercise 13.6
 expr :: Parser Int
 expr = do t <- term
           do symbol "+"
              e <- expr
              return (t + e)
-           <|> return t
+           <|> do symbol "-"
+                  e <- expr
+                  return (t - e)
+                <|> return t
 
 term :: Parser Int
 term = do f <- factor
           do symbol "*"
              t <- term
              return (f * t)
-           <|> return f
+           <|> do symbol "/"
+                  t <- term
+                  return (f `div` t)
+                <|> return f
 
 factor :: Parser Int
 factor = do symbol "("
             e <- expr
             symbol ")"
             return e
-          <|> natural
+          <|> integer
 
--- eval :: String -> Int          
--- eval xs = case (parse expr xs) of
---             [(n, [])]  -> n
---             [(_, out)] -> error ("Unused input " ++ out)
---             []         -> error "Invalid input"
+eval' :: String -> Int          
+eval' xs = case (parse expr xs) of
+             [(n, [])]  -> n
+             [(_, out)] -> error ("Unused input " ++ out)
+             []         -> error "Invalid input"
 
 cls :: IO ()
 cls = putStr "\ESC[2J"
