@@ -130,13 +130,21 @@ expr = do t <- term
            <|> return t
 
 term :: Parser Int
-term = do f <- factor
+term = do p <- power
           do s <- (symbol "*" <|> symbol "/")
              t <- term
              case s of
-              "*" -> return (f * t)
-              "/" -> return (f `div` t)
-           <|> return f
+              "*" -> return (p * t)
+              "/" -> return (p `div` t)
+           <|> return p
+
+-- exercise 13.7           
+power :: Parser Int
+power = do f <- factor
+           do symbol "^"
+              p <- power
+              return (f ^ p)
+            <|> return f
 
 factor :: Parser Int
 factor = do symbol "("
