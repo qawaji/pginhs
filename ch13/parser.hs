@@ -122,23 +122,21 @@ nats = do symbol "["
 -- exercise 13.6
 expr :: Parser Int
 expr = do t <- term
-          do symbol "+"
+          do s <- (symbol "+" <|> symbol "-")
              e <- expr
-             return (t + e)
-           <|> do symbol "-"
-                  e <- expr
-                  return (t - e)
-                <|> return t
+             case s of
+              "+" -> return (t + e)
+              "-" -> return (t - e)
+           <|> return t
 
 term :: Parser Int
 term = do f <- factor
-          do symbol "*"
+          do s <- (symbol "*" <|> symbol "/")
              t <- term
-             return (f * t)
-           <|> do symbol "/"
-                  t <- term
-                  return (f `div` t)
-                <|> return f
+             case s of
+              "*" -> return (f * t)
+              "/" -> return (f `div` t)
+           <|> return f
 
 factor :: Parser Int
 factor = do symbol "("
