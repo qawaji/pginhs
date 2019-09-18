@@ -234,9 +234,9 @@ delete xs = calc (init xs)
 
 eval :: String -> IO ()
 eval xs = case parse expr xs of
-              [(n,[])] -> calc (show n)
-              _        -> do beep
-                             calc xs
+              [(n,[])]  -> calc (show n)
+              _         -> do beep
+                              calc xs
 
 clear :: IO ()
 clear = calc []

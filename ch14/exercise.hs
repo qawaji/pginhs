@@ -1,0 +1,5 @@
+-- exercise 14.1
+-- コンパイルするとDuplicate instance declarations
+--instance (Monoid a, Monoid b) => Monoid (a, b) where
+--  mempty = (mempty, mempty)
+--  (x1,y1) `mappend` (x2,y2) = (x1 `mappend` x2, y1 `mappend` y2)
