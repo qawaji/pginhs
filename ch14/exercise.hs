@@ -69,8 +69,12 @@ instance Foldable Tree where
 
   -- foldr :: (a -> b -> b) -> b -> Tree a -> b
   foldr _ v Leaf = v
-  foldr f v (Node l x r) = f x (foldr f (foldr f v r) l)
+  foldr f v (Node l x r) = foldr f (f x (foldr f v r)) l
 
   -- foldl :: (a -> b -> a) -> a -> Tree b -> a
   foldl _ v Leaf = v
-  foldl f v (Node l x r) = f (foldl f (foldl f v l) r) x
+  foldl f v (Node l x r) = foldl f (f (foldl f v l) x ) r
+
+-- exercise 14.5
+filterF :: Foldable t => (a -> Bool) -> t a -> [a]
+filterF pred = foldMap (\x -> if pred x then [x] else [])
