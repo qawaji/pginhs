@@ -18,6 +18,7 @@ import Data.Monoid
 data Maybe' a = Nothing' | Just' a
   deriving (Show, Ord, Eq, Read)
 
+-- 14.3 
 instance Foldable Maybe' where
   -- fold :: Monoid a => (Maybe a) -> a
   fold Nothing' = mempty
@@ -34,3 +35,22 @@ instance Foldable Maybe' where
   -- foldl :: (a -> b -> a) -> a -> Maybe b -> a
   foldl _ z Nothing' = z
   foldl f z (Just' x) = f z x
+
+instance Functor Maybe' where
+  -- fmap :: (a -> b) -> Maybe' a -> Maybe' b
+  fmap _ Nothing' = Nothing'
+  fmap f (Just' x) = Just' (f x)
+
+instance Applicative Maybe' where
+  -- pure :: a -> Maybe' a
+  pure = Just'
+
+  -- (<*>) :: Maybe' (a -> b) -> Maybe' a -> Maybe' b
+  Nothing' <*> _ = Nothing'
+  (Just' g) <*> mx = fmap g mx
+
+instance Traversable Maybe' where
+  -- traverse :: Applicative f => (a -> f b) -> Maybe' a -> f (Maybe' b)
+  traverse _ Nothing' = pure Nothing'
+  traverse g (Just' x) = pure Just' <*> g x
+  
